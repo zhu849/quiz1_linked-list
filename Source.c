@@ -97,6 +97,42 @@ void reverse_v3(node_t **head)
 	rev_recursive(NULL, *head, head);
 }
 
+void FYshuffle(node_t **head) {
+	srand((unsigned)time(NULL));
+	int randnum;
+	int lens = 0; // number of items
+	node_t *p = *head;
+	node_t *tmp = NULL;
+	node_t **nhead = &tmp;
+	node_t *prev;
+
+	// count number of items 
+	while (p) {
+		lens++;
+		p = p->next;
+	}
+
+	// do shuffle
+	while (lens - 1) {
+		randnum = rand() % lens; // select number from 0 to (lens - 1)
+		p = *head;
+		prev = NULL;
+		while (randnum) {
+			prev = p;
+			p = p->next;
+			randnum--;
+		}
+		if (prev)
+			prev->next = p->next;
+		else
+			*head = (*head)->next;
+		p->next = *nhead;
+		*nhead = p;
+		lens--;
+	}
+	(*head)->next = *nhead;
+}
+
 int main(int argc, char const *argv[])
 {
 	node_t *head = NULL;
@@ -110,7 +146,8 @@ int main(int argc, char const *argv[])
 	add_entry(&head, 111);
 
 	print_list(head);
-
+	FYshuffle(&head);
+	print_list(head);
 	node_t *entry = find_entry(head, 101);
 	remove_entry(&head, entry);
 
