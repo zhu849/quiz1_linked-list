@@ -102,8 +102,7 @@ void FYshuffle(node_t **head) {
 	int randnum;
 	int lens = 0; // number of items
 	node_t *p = *head;
-	node_t *tmp = NULL;
-	node_t **nhead = &tmp;
+	node_t *nhead = NULL;
 	node_t *prev;
 
 	// count number of items 
@@ -126,11 +125,11 @@ void FYshuffle(node_t **head) {
 			prev->next = p->next;
 		else
 			*head = (*head)->next;
-		p->next = *nhead;
-		*nhead = p;
+		p->next = nhead;
+		nhead = p;
 		lens--;
 	}
-	(*head)->next = *nhead;
+	(*head)->next = nhead;
 }
 
 int main(int argc, char const *argv[])
